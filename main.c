@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+//Funciones de apoyo
+
 int indiceLetra(char letra,char alfabeto[]){
     int i = 0;
     while(alfabeto[i]!=letra){
@@ -35,6 +37,8 @@ char aumentar_letra(char letra,int aumento){
     
 }
 
+//Definicion de cifrado principal
+
 char* cifrado_principal(char* palabra,int numero){
     char* nueva_palabra = (char *)malloc(sizeof(char)*strlen(palabra));
     for(int i = 0;i<strlen(palabra);i++){
@@ -45,96 +49,54 @@ char* cifrado_principal(char* palabra,int numero){
 }
 
 /*definicon de las variantes de los cifrados secundarios*/
-char* c_secun_1_a(char* palabra){
+char* c_secun_a(char* palabra){
 	printf("Aplicando el cifrado secundario 1 A\n");
 	return palabra;
 }
 
-char* c_secun_1_e(char* palabra){
+char* c_secun_e(char* palabra){
 	printf("Aplicando el cifrado secundario 1 E\n");
 	return palabra;
 }
 
-char* c_secun_1_i(char* palabra){
+char* c_secun_i(char* palabra){
 	printf("Aplicando el cifrado secundario 1 I\n");
 	return palabra;
 }
 
-char* c_secun_1_o(char* palabra){
+char* c_secun_o(char* palabra){
 	printf("Aplicando el cifrado secundario 1 O\n");
 	return palabra;
 }
 
-char* c_secun_1_u(char* palabra){
-	printf("Aplicando el cifrado secundario 1 U\n");
-	return palabra;
-}
-//=================================================//
-char* c_secun_2_a(char* palabra){
-	printf("Aplicando el cifrado secundario 1 A\n");
+char* c_secun_u(char* palabra){
+	printf("Aplicando el cifrado secunadario U\n");
 	return palabra;
 }
 
-char* c_secun_2_e(char* palabra){
-	printf("Aplicando el cifrado secundario 1 E\n");
-	return palabra;
-}
+//funcion que selecciona el cifrado secundario
 
-char* c_secun_2_i(char* palabra){
-	printf("Aplicando el cifrado secundario 2 I\n");
-	return palabra;
-}
-
-char* c_secun_2_o(char* palabra){
-	printf("Aplicando el cifrado secundario 2 O\n");
-	return palabra;
-}
-
-char* c_secun_2_u(char* palabra){
-	printf("Aplicando el cifrado secundario 2 U\n");
-	return palabra;
-}
-
-
-void cifrado_secundario_1(char* palabra,char codigo){
+void cifrado_secundario(char* palabra,char codigo){
 	switch (codigo){
 	    case 'A':
-	        c_secun_1_a(palabra);
+	        c_secun_a(palabra);
 	        break;
 	    case 'E':
-		    c_secun_1_e(palabra);
+		    c_secun_e(palabra);
 	        break;
    	    case 'I':
-	   	    c_secun_1_i(palabra);
+	   	    c_secun_i(palabra);
 	        break;
 		case 'O':
-	        c_secun_1_o(palabra);
+	        c_secun_o(palabra);
 	        break;
 		case 'U':
-			c_secun_1_u(palabra);
+			c_secun_u(palabra);
 	        break;
 	}
 }
 
-void cifrado_secundario_2(char* palabra,char codigo){
-	switch (codigo){
-	    case 'A':
-	        c_secun_2_a(palabra);
-	        break;
-	    case 'E':
-		    c_secun_2_e(palabra);
-	        break;
-   	    case 'I':
-	   	    c_secun_2_i(palabra);
-	        break;
-		case 'O':
-	        c_secun_2_o(palabra);
-	        break;
-		case 'U':
-			c_secun_2_u(palabra);
-	        break;
-	}
-}
+//Funcion principal
 
 char* encriptar(char* palabra,char* codigo,char alfabeto[]){
     char* mensaje_cifrado_final = (char *)malloc(sizeof(char)*(strlen(palabra) + 3));
@@ -145,17 +107,11 @@ char* encriptar(char* palabra,char* codigo,char alfabeto[]){
     strcat(mensaje_cifrado_final,"-");
     strcat(mensaje_cifrado_final,palabra_encript);
     
-    cifrado_secundario_1(mensaje_cifrado_final,codigo[0]);
+    cifrado_secundario(mensaje_cifrado_final,codigo[0]);
     //strcar recibe char*, debemos convertir el char en char* añadiendo el caracter nullo
-    char codigo_c_sec_1[2] = {codigo[0],'\0'};
+    char codigo_c_sec[2] = {codigo[0],'\0'};
     strcat(mensaje_cifrado_final,"-");
-    strcat(mensaje_cifrado_final,codigo_c_sec_1);
-
-    cifrado_secundario_2(mensaje_cifrado_final,codigo[1]);
-    char codigo_c_sec_2[2] = {codigo[1],'\0'};
-
-    strcat(mensaje_cifrado_final,"-");
-    strcat(mensaje_cifrado_final,codigo_c_sec_2);
+    strcat(mensaje_cifrado_final,codigo_c_sec);
     
     return mensaje_cifrado_final;
 }
