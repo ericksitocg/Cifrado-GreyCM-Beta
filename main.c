@@ -39,13 +39,14 @@ char aumentar_letra(char letra,int aumento){
 
 //Definicion de cifrado principal
 
-char* cifrado_principal(char* palabra,int numero){
-    char* nueva_palabra = (char *)malloc(sizeof(char)*strlen(palabra));
+void cifrado_principal(char* palabra,int numero){
+    //char* nueva_palabra = (char *)malloc(sizeof(char)*strlen(palabra));
     for(int i = 0;i<strlen(palabra);i++){
         int caracter = palabra[i];
-        *(nueva_palabra+i) = aumentar_letra(caracter,numero);
+        //*(nueva_palabra+i) = aumentar_letra(caracter,numero);
+        *(palabra+i) = aumentar_letra(caracter,numero);
     }
-    return nueva_palabra;
+    //return nueva_palabra;
 }
 
 /*definicon de las variantes de los cifrados secundarios*/
@@ -101,18 +102,20 @@ void cifrado_secundario(char* palabra,char codigo){
 char* encriptar(char* palabra,char* codigo,char alfabeto[]){
     char* mensaje_cifrado_final = (char *)malloc(sizeof(char)*(strlen(palabra) + 3));
     
-    char* palabra_encript= cifrado_principal(palabra,indiceLetra(codigo[ strlen(codigo) - 1],alfabeto));
+    cifrado_principal(palabra,indiceLetra(codigo[ strlen(codigo) - 1],alfabeto));
+    //char* palabra_encript= cifrado_principal(palabra,indiceLetra(codigo[ strlen(codigo) - 1],alfabeto));
     char codigo_c_princ[2] = {codigo[ strlen(codigo) - 1] ,'\0'};
+    //agregando la cabezera del cifrado principal
     strcat(mensaje_cifrado_final,codigo_c_princ);
     strcat(mensaje_cifrado_final,"-");
-    strcat(mensaje_cifrado_final,palabra_encript);
+    strcat(mensaje_cifrado_final,palabra);
     
     cifrado_secundario(mensaje_cifrado_final,codigo[0]);
     //strcar recibe char*, debemos convertir el char en char* añadiendo el caracter nullo
     char codigo_c_sec[2] = {codigo[0],'\0'};
     strcat(mensaje_cifrado_final,"-");
     strcat(mensaje_cifrado_final,codigo_c_sec);
-    
+
     return mensaje_cifrado_final;
 }
 
