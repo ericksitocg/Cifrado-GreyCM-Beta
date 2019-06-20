@@ -56,9 +56,7 @@ void c_secun_a(char* palabra){
     for(int i = 0;i<j;i++){
         char primer_caracter = *(palabra + i);
         char ultimo_caracter = *(palabra + j);
-        
-        //printf("%c - %c\n",primer_caracter,ultimo_caracter);
-        
+              
         *(palabra + i) = ultimo_caracter;
         *(palabra + j) = primer_caracter;
         
@@ -67,24 +65,52 @@ void c_secun_a(char* palabra){
     
 }
 
-char* c_secun_e(char* palabra){
-    printf("Aplicando el cifrado secundario 1 E\n");
-    return palabra;
+void c_secun_e(char* palabra){
+    printf("Aplicando el cifrado secundario E\n");
+    int j = strlen(palabra)/2 - 1;
+    for(int i = 0;i<j;i++){
+        char primer_caracter = *(palabra + i);
+        char ultimo_caracter = *(palabra + j);
+    
+        *(palabra + i) = ultimo_caracter;
+        *(palabra + j) = primer_caracter;
+        
+        j--;
+    }
 }
 
-char* c_secun_i(char* palabra){
-    printf("Aplicando el cifrado secundario 1 I\n");
-    return palabra;
+
+void c_secun_i(char* palabra){
+    printf("Aplicando el cifrado secundario I\n");
+    int j = strlen(palabra) - 1;
+    for(int i = strlen(palabra)/2;i<j;i++){
+        char primer_caracter = *(palabra + i);
+        char ultimo_caracter = *(palabra + j);
+    
+        *(palabra + i) = ultimo_caracter;
+        *(palabra + j) = primer_caracter;
+        
+        j--;
+    }
 }
 
-char* c_secun_o(char* palabra){
-    printf("Aplicando el cifrado secundario 1 O\n");
-    return palabra;
+void c_secun_o(char* palabra){
+    printf("Aplicando el cifrado secundario O\n");
+    int j = strlen(palabra) - 2;
+    for(int i = 1;i<j;i++){
+        char primer_caracter = *(palabra + i);
+        char ultimo_caracter = *(palabra + j);
+    
+        *(palabra + i) = ultimo_caracter;
+        *(palabra + j) = primer_caracter;
+        
+        j--;
+    }
 }
 
-char* c_secun_u(char* palabra){
-    printf("Aplicando el cifrado secunadario U\n");
-    return palabra;
+void c_secun_u(char* palabra){
+    printf("Aplicando el cifrado secundario U\n");
+    //La version U indica que no se aplica el cifrado secundario
 }
 
 //funcion que selecciona el cifrado secundario
