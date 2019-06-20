@@ -21,8 +21,8 @@ void generaAlfabeto(char alfabeto[]){
 
 void convetirMayusculas(char mensaje[]){
     for (int indice = 0; mensaje[indice] != '\0'; ++indice){
-		mensaje[indice] = toupper(mensaje[indice]);
-	}
+        mensaje[indice] = toupper(mensaje[indice]);
+    }
 }
 
 char aumentar_letra(char letra,int aumento){
@@ -50,51 +50,63 @@ void cifrado_principal(char* palabra,int numero){
 }
 
 /*definicon de las variantes de los cifrados secundarios*/
-char* c_secun_a(char* palabra){
-	printf("Aplicando el cifrado secundario 1 A\n");
-	return palabra;
+void c_secun_a(char* palabra){
+    printf("Aplicando el cifrado secundario A\n");
+    int j = strlen(palabra) - 1;
+    for(int i = 0;i<j;i++){
+        char primer_caracter = *(palabra + i);
+        char ultimo_caracter = *(palabra + j);
+        
+        //printf("%c - %c\n",primer_caracter,ultimo_caracter);
+        
+        *(palabra + i) = ultimo_caracter;
+        *(palabra + j) = primer_caracter;
+        
+        j--;
+    }
+    
 }
 
 char* c_secun_e(char* palabra){
-	printf("Aplicando el cifrado secundario 1 E\n");
-	return palabra;
+    printf("Aplicando el cifrado secundario 1 E\n");
+    return palabra;
 }
 
 char* c_secun_i(char* palabra){
-	printf("Aplicando el cifrado secundario 1 I\n");
-	return palabra;
+    printf("Aplicando el cifrado secundario 1 I\n");
+    return palabra;
 }
 
 char* c_secun_o(char* palabra){
-	printf("Aplicando el cifrado secundario 1 O\n");
-	return palabra;
+    printf("Aplicando el cifrado secundario 1 O\n");
+    return palabra;
 }
 
 char* c_secun_u(char* palabra){
-	printf("Aplicando el cifrado secunadario U\n");
-	return palabra;
+    printf("Aplicando el cifrado secunadario U\n");
+    return palabra;
 }
 
 //funcion que selecciona el cifrado secundario
 
 void cifrado_secundario(char* palabra,char codigo){
-	switch (codigo){
-	    case 'A':
-	        c_secun_a(palabra);
-	        break;
-	    case 'E':
-		    c_secun_e(palabra);
-	        break;
-   	    case 'I':
-	   	    c_secun_i(palabra);
-	        break;
-		case 'O':
-	        c_secun_o(palabra);
-	        break;
-		case 'U':
-			c_secun_u(palabra);
-	        break;
-	}
+    switch (codigo){
+        case 'A':
+            c_secun_a(palabra);
+            break;
+        case 'E':
+            c_secun_e(palabra);
+            break;
+        case 'I':
+            c_secun_i(palabra);
+            break;
+        case 'O':
+            c_secun_o(palabra);
+            break;
+        case 'U':
+            c_secun_u(palabra);
+            break;
+    }
 }
 
 //Funcion principal
