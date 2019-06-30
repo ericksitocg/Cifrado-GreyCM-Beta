@@ -4,7 +4,7 @@
 	# Declarando la funcion global main
 	.globl	main
 	
-main:	
+main:	#####################################################
 	#Presentando para pedir mensaje
 	li $v0,4
 	la $a0,menj_pedir_mensaje
@@ -19,13 +19,7 @@ main:
 	#conviertiendo en mayuscula lo que esta en el buffer_mensaje
 	jal convertir_a_mayusculas
 	
-    	#Presentando mensaje informacion_1
-	li $v0,4
-	la $a0,menj_informar_encriptacion1
-	syscall 
-	
-	#Presentamos lo que hay guardado en el buffer
-	jal presentar_buffer_mensaje
+	###############
 	
 	#Presentando para pedir codigo
 	li $v0,4
@@ -34,21 +28,32 @@ main:
 	
 	#Tomando la entrada del usuario como texto (codigo)
 	li $v0,8
-	la $a0,buffer_mensaje
+	la $a0,buffer_codigo
 	li $a1,50
 	syscall
 	
 	#conviertiendo en mayuscula lo que esta en el buffer_mensaje
 	jal convertir_a_mayusculas
+	
+	#########################################################################
 		
+	#Presentando mensaje informacion_1
+	li $v0,4
+	la $a0,menj_informar_encriptacion1
+	syscall 
+	
+	#Presentamos lo que hay guardado en el buffer de mensaje
+	jal presentar_buffer_mensaje
+	
 	#Presentando mensaje informacion_2
 	li $v0,4
 	la $a0,menj_informar_encriptacion2
 	syscall 
 	
-	#Presentamos lo que hay guardado en el buffer
-	jal presentar_buffer_mensaje
+	#Presentamos lo que hay guardado en el buffer de codigo
+	jal presentar_buffer_codigo
 	
+	######################################################################
 	#mensaje
 	jal presentar_mensaje_info_cifrado_principal
 	
@@ -61,28 +66,30 @@ main:
 	#Aplicnado el cifrado secundaio
 	jal cifrado_secundario
 	
+	############################################
+	
 	#terminando el programa
 	li $v0,10  # Syscall Salir
 	syscall
 	
 convertir_a_mayusculas:
-	#Iniciando en cero el registro t0
-	addi $t0,$zero,0
 	
-	loop:
-		lb $t1, buffer_mensaje($t0)
-    		beq $t1, 0, exit_loop
-	 	blt $t1, 'a', case
-		bgt $t1, 'z', case
-		sub $t1, $t1, 32
-		sb $t1, buffer_mensaje($t0)
+funcion:
 
-	case: 
-    		addi $t0, $t0, 1
-    		j loop
+    loop:
+        lb $t1, ($a0)
+        beq $t1, 0, exit_loop
+        blt $t1, 'a', case
+        bgt $t1, 'z', case
+        sub $t1, $t1, 32
+        sb $t1, ($a0)
 
-	exit_loop:
-		jr $ra
+    case: 
+            addi $a0, $a0, 1
+            j loop
+
+    exit_loop:
+        jr $ra
 		
 cifrado_principal:
 	#definicion del cifrado principal
@@ -96,6 +103,13 @@ presentar_buffer_mensaje:
 	#Presentado datos finales (codigo)
 	li $v0,4
 	la $a0,buffer_mensaje
+	syscall
+	jr $ra
+	
+presentar_buffer_codigo:
+	#Presentado datos finales (codigo)
+	li $v0,4
+	la $a0,buffer_codigo
 	syscall
 	jr $ra
 
@@ -122,7 +136,7 @@ buffer_codigo: .space 50
 menj_pedir_mensaje:	.asciiz "Ingrese el mensaje a encriptar(max 50 letras): "
 menj_pedir_codigo:	.asciiz "Ingrese el codigo a usar para la encriptacion: "
 menj_informar_encriptacion1:	.asciiz "Se va a encriptar  el mensaje : "
-menj_informar_encriptacion2:	.asciiz " usando el codigo: "
+menj_informar_encriptacion2:	.asciiz "usando el codigo: "
 
 menj_informar_apli_cifrado_principal: .asciiz "Aplicando cifrado principal\n"
 menj_informar_apli_cifrado_secundario: .asciiz "Aplicando cifrado secundario\n"
