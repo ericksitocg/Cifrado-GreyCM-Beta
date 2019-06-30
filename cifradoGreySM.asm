@@ -27,43 +27,39 @@ main:
 	li $a1,50
 	syscall
 	
-	#Convirtiendo en mayusculas el mensaje
+	#Iniciando los argumentos para la funcion
 	
+	#Se supone que debo enviar el argumento por a0 pero como envio si es un arreglo?
+	add $a0,$zero,buffer_mensaje
+	
+	jal convertir_a_mayusculas
+	
+	add $a0,$zero,buffer_codigo
+	
+	jal convertir_a_mayusculas
+	
+	#terminando el programa
+	li $v0,10  # Syscall Salir
+	syscall
+	
+convertir_a_mayusculas:
 	#Iniciando en cero el registro t0
 	li $t0, 0
 
-loop:
-    lb $t1, buffer_mensaje($t0)
-    beq $t1, 0, exit_loop
-    blt $t1, 'a', case
-    bgt $t1, 'z', case
-    sub $t1, $t1, 32
-    sb $t1, buffer_mensaje($t0)
+	loop:
+		lb $t1, $a0($t0)
+    		beq $t1, 0, exit_loop
+	 	blt $t1, 'a', case
+		bgt $t1, 'z', case
+		sub $t1, $t1, 32
+		sb $t1, $a0($t0)
 
-case: 
-    addi $t0, $t0, 1
-    j loop
+	case: 
+    		addi $t0, $t0, 1
+    		j loop
 
-exit_loop:
-
-	#Convirtiendo en mayusculas el codigo
-	
-	#Iniciando en cero el registro t0
-	li $t0, 0
-
-loop2:
-    lb $t1, buffer_codigo($t0)
-    beq $t1, 0, exit_loop2
-    blt $t1, 'a', case2
-    bgt $t1, 'z', case2
-    sub $t1, $t1, 32
-    sb $t1, buffer_codigo($t0)
-
-case2: 
-    addi $t0, $t0, 1
-    j loop2
-
-exit_loop2:
+	exit_loop:
+		jr $ra
 
     	#Presentando mensaje informacion_1
 	li $v0,4
@@ -85,10 +81,6 @@ exit_loop2:
 	la $a0,buffer_codigo
 	syscall
 	
-	#terminando el programa
-	li $v0,10		# Syscall Salir
-	syscall
-
 	# .data Directiva ensamblador todas las estructuras de memoria estand declaradas de la directiva
 	.data
 	
