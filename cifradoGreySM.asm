@@ -58,6 +58,12 @@ main:	#####################################################
 	jal presentar_mensaje_info_cifrado_principal
 	
 	#Aplicando el cifrado principal
+	
+	la $a0,buffer_mensaje
+	#Tomando solo la ultima letra del codigo sumando 2 desde el inicio del string moviendo el puntero
+	la $t0,buffer_codigo
+	addi $a1,$t0,2
+	
 	jal cifrado_principal
 
 	#mensaje
